@@ -8,6 +8,8 @@
 
 4- incluir dentro do arquivo `package.json`
 
+5- npm install -D husky
+
 ```json
 {
     "type": "module"
