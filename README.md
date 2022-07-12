@@ -58,11 +58,12 @@ Acessar `confifurações` do VSCode, acessar o arquivo `settings.json` e adicion
     -   [x] validador de senha
     -   [x] tem que ser maior 11 anos
 -   [ ] Produtos
-    -   [ ] em oferta
+    -   [ ] cupom
     -   [ ] com desconto
-    -   [ ] frete grátis
 -   [ ] Carrinho
--   [ ] Catálogo de produtos
+    -   [ ] frete grátis
+    -   Compras acima de R$200,00 frete grátis. Frete fixo de R$20,00
+-   [ ] Cupom
 
 # O que aprendemos?
 

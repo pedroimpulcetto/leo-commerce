@@ -1,31 +1,26 @@
 export default class User {
-
-    constructor(name, birthDate, email, password){
+    constructor(name, birthDate, email, password) {
         this.name = name;
         this.birthDate = birthDate;
         this.email = email;
-        this.password = password; 
+        this.password = password;
     }
 
-    passwordValidator(){
+    passwordValidator() {
         if (this.password.length >= 6) {
             return true;
         }
         return false;
     }
 
-    birthDateValidator(){
-        let birthYear = new Date(this.birthDate).getFullYear();
-        let yearNow = new Date().getFullYear();
-        let lessThan11 = yearNow - birthYear
-        
-        if (lessThan11 < 11){
+    birthDateValidator() {
+        const birthYear = new Date(this.birthDate).getFullYear();
+        const yearNow = new Date().getFullYear();
+        const lessThan11 = yearNow - birthYear;
+
+        if (lessThan11 < 11) {
             return false;
         }
         return true;
     }
-
-
-
 }
-
