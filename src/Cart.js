@@ -1,29 +1,45 @@
 export default class Cart {
     constructor() {
         this.products = [];
+        this.subTotalPrice = 0;
+        this.coupon = null;
+        this.freight = null;
     }
 
     addProduct(product) {
         this.products.push(product);
+        this.subTotalPrice += product.finalPrice();
+    }
+
+    addFreight(freight) {
+        this.freight = freight;
     }
 
     quantityProducts() {
         return this.products.length;
     }
 
-    getTotalPrice() {
-        let totalPrice = 0;
-        for (const product of this.products) {
-            totalPrice = totalPrice + product.finalPrice();
-        }
-        return totalPrice;
+    getSubTotalPrice() {
+        return this.subTotalPrice;
     }
 
-    freightCalculator() {
-        const totalPrice = this.getTotalPrice();
-        if (totalPrice <= 200) {
-            return 20;
+    totalPrice() {
+        if (this.subTotalPrice === 0) return 0;
+        if (this.coupon?.hasDiscount()) {
+            this.subTotalPrice = this.coupon?.save(this.subTotalPrice);
         }
-        return 0;
+        this.subTotalPrice += this.freight?.value(
+            this.subTotalPrice,
+            this.coupon
+        );
+        return this.subTotalPrice;
+    }
+
+    addCoupon(coupon) {
+        if (!coupon.isValid()) {
+            console.log("Cupom expirado ou inválido");
+            return;
+        }
+        this.coupon = coupon;
     }
 }

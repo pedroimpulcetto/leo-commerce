@@ -1,7 +1,7 @@
 export default class Coupon {
-    constructor(code, discountPercentage, createDate, applicationDate) {
+    constructor(code, discount, createDate, applicationDate) {
         this.code = code;
-        this.discountPercentage = discountPercentage;
+        this.discount = discount;
         this.createDate = createDate;
         this.applicationDate = applicationDate;
     }
@@ -17,5 +17,13 @@ export default class Coupon {
         return new Date(
             this.createDate.setUTCDate(this.createDate.getUTCDate() + 15)
         );
+    }
+
+    save() {
+        throw new Error("Not implemented yet.");
+    }
+
+    hasDiscount() {
+        return Boolean(this.discount);
     }
 }
