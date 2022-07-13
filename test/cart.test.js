@@ -103,3 +103,4 @@ test("deve criar um carrinho que o valor do produto atinja o frete grátis", () 
 
     expect(freight).toBe(0);
 });
+

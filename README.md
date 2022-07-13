@@ -39,7 +39,7 @@ Instalar extensões para VSCode:
 -   Prettier - Code Formatter
 -   Rainbow Brackets
 
-Acessar `confifurações` do VSCode, acessar o arquivo `settings.json` e adicionar:
+Acessar `configurações` do VSCode, acessar o arquivo `settings.json` e adicionar:
 
 ```json
 {
