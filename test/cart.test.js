@@ -80,7 +80,7 @@ test("deve calcular o valor total de produtos do carrinho", () => {
 
 test("deve calcular o valor do carrinho sem produto algum", () => {
     const cart = new Cart();
-    const totalPrice = cart.totalPrice();
+    const totalPrice = cart.getTotalPrice();
 
     expect(totalPrice).toBe(0);
 });
@@ -120,12 +120,10 @@ test("deve criar um carrinho que o valor do produto atinja o frete grátis", () 
 });
 
 test("deve criar um carrinho com um produto e um cupom de valor de desconto válido", () => {
-    const cart = new Cart();
+    const freight = new Freight();
+    const cart = new Cart(freight);
     const product = new Product("CPU", "CPU IntelBras", 190, 0, "Informática");
     cart.addProduct(product);
-
-    const freight = new Freight();
-    cart.addFreight(freight);
 
     const coupon = new CouponAmount(
         "PEDRO100",
@@ -135,18 +133,16 @@ test("deve criar um carrinho com um produto e um cupom de valor de desconto vál
     );
     cart.addCoupon(coupon);
 
-    const totalPrice = cart.totalPrice();
+    const totalPrice = cart.getTotalPrice();
 
     expect(totalPrice).toBe(110);
 });
 
 test("deve criar um carrinho com um produto e um cupom de valor de desconto inválido", () => {
-    const cart = new Cart();
+    const freight = new Freight();
+    const cart = new Cart(freight);
     const product = new Product("CPU", "CPU IntelBras", 190, 0, "Informática");
     cart.addProduct(product);
-
-    const freight = new Freight();
-    cart.addFreight(freight);
 
     const coupon = new CouponAmount(
         "PEDRO100",
@@ -156,18 +152,16 @@ test("deve criar um carrinho com um produto e um cupom de valor de desconto inv�
     );
     cart.addCoupon(coupon);
 
-    const totalPrice = cart.totalPrice();
+    const totalPrice = cart.getTotalPrice();
 
     expect(totalPrice).toBe(210);
 });
 
 test("deve criar um carrinho com um produto e um cupom de procentagem de desconto válido", () => {
-    const cart = new Cart();
+    const freight = new Freight();
+    const cart = new Cart(freight);
     const product = new Product("CPU", "CPU IntelBras", 100, 0, "Informática");
     cart.addProduct(product);
-
-    const freight = new Freight();
-    cart.addFreight(freight);
 
     const coupon = new CouponPorcentage(
         "PEDRO10",
@@ -177,19 +171,17 @@ test("deve criar um carrinho com um produto e um cupom de procentagem de descont
     );
     cart.addCoupon(coupon);
 
-    const totalPrice = cart.totalPrice();
+    const totalPrice = cart.getTotalPrice();
 
     expect(totalPrice).toBe(110);
 });
 
 test("deve criar um carrinho com um produto e um cupom de frete grátis válido", () => {
-    const cart = new Cart();
+    const freight = new Freight();
+    const cart = new Cart(freight);
 
     const product = new Product("CPU", "CPU IntelBras", 100, 0, "Informática");
     cart.addProduct(product);
-
-    const freight = new Freight();
-    cart.addFreight(freight);
 
     const coupon = new CouponFreight(
         "PEDROFRETEGRATIS",
@@ -199,7 +191,72 @@ test("deve criar um carrinho com um produto e um cupom de frete grátis válido"
     );
     cart.addCoupon(coupon);
 
-    const totalPrice = cart.totalPrice();
+    const totalPrice = cart.getTotalPrice();
 
     expect(totalPrice).toBe(100);
+});
+
+test("deve criar um carrinho com um produto e um cupom de frete grátis válido e depois adiciona outro produto", () => {
+    const freight = new Freight();
+    const cart = new Cart(freight);
+
+    const product = new Product("CPU", "CPU IntelBras", 100, 0, "Informática");
+    cart.addProduct(product);
+
+    const coupon = new CouponFreight(
+        "PEDROFRETEGRATIS",
+        null,
+        new Date("2022-07-01"),
+        new Date("2022-07-11")
+    );
+    cart.addCoupon(coupon);
+
+    let totalPrice = cart.getTotalPrice();
+    expect(totalPrice).toBe(100);
+
+    const product1 = new Product("CPU", "CPU IntelBras", 90, 0, "Informática");
+    cart.addProduct(product1);
+
+    totalPrice = cart.getTotalPrice();
+    expect(totalPrice).toBe(190);
+});
+
+test("deve criar um carrinho com um produto e depois adiciona outro produto ... ", () => {
+    const freight = new Freight();
+    const cart = new Cart(freight);
+
+    const product = new Product("CPU", "CPU IntelBras", 100, 0, "Informática");
+    cart.addProduct(product);
+
+    let totalPrice = cart.getTotalPrice();
+    expect(totalPrice).toBe(120);
+
+    const product1 = new Product("CPU", "CPU IntelBras", 90, 0, "Informática");
+    cart.addProduct(product1);
+
+    totalPrice = cart.getTotalPrice();
+    expect(totalPrice).toBe(210);
+
+    const product2 = new Product("CPU", "CPU IntelBras", 50, 0, "Informática");
+    cart.addProduct(product2);
+
+    totalPrice = cart.getTotalPrice();
+    expect(totalPrice).toBe(240);
+
+    const product3 = new Product("CPU", "CPU IntelBras", 50, 0, "Informática");
+    cart.addProduct(product3);
+
+    totalPrice = cart.getTotalPrice();
+    expect(totalPrice).toBe(290);
+
+    const coupon = new CouponAmount(
+        "PEDRO100",
+        100,
+        new Date("2022-07-01"),
+        new Date("2022-07-11")
+    );
+    cart.addCoupon(coupon);
+
+    totalPrice = cart.getTotalPrice();
+    expect(totalPrice).toBe(210);
 });

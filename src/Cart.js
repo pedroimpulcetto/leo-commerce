@@ -1,18 +1,38 @@
 export default class Cart {
-    constructor() {
+    constructor(freight) {
+        this.freight = freight;
+
         this.products = [];
+        this.totalPrice = 0;
         this.subTotalPrice = 0;
+        this.subTotalPricePlusCoupon = 0;
+
         this.coupon = null;
-        this.freight = null;
+    }
+
+    getFreightValue() {
+        return this.freight?.value(this.subTotalPricePlusCoupon, this.coupon);
     }
 
     addProduct(product) {
         this.products.push(product);
         this.subTotalPrice += product.finalPrice();
+        this.calculateValues();
     }
 
-    addFreight(freight) {
-        this.freight = freight;
+    saveCoupon() {
+        if (this.coupon) {
+            this.subTotalPricePlusCoupon = this.coupon?.save(
+                this.subTotalPrice
+            );
+        } else {
+            this.subTotalPricePlusCoupon = this.subTotalPrice;
+        }
+    }
+
+    calculateValues() {
+        this.saveCoupon();
+        this.totalPrice = this.subTotalPricePlusCoupon + this.getFreightValue();
     }
 
     quantityProducts() {
@@ -23,16 +43,8 @@ export default class Cart {
         return this.subTotalPrice;
     }
 
-    totalPrice() {
-        if (this.subTotalPrice === 0) return 0;
-        if (this.coupon?.hasDiscount()) {
-            this.subTotalPrice = this.coupon?.save(this.subTotalPrice);
-        }
-        this.subTotalPrice += this.freight?.value(
-            this.subTotalPrice,
-            this.coupon
-        );
-        return this.subTotalPrice;
+    getTotalPrice() {
+        return this.totalPrice;
     }
 
     addCoupon(coupon) {
@@ -41,5 +53,6 @@ export default class Cart {
             return;
         }
         this.coupon = coupon;
+        this.calculateValues();
     }
 }
