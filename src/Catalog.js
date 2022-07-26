@@ -1,4 +1,5 @@
-export default class Catalog{
-    constructor(category){
-    this.category = category;
-}}
+export default class Catalog {
+    constructor(category) {
+        this.category = category;
+    }
+}

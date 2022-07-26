@@ -1,6 +1,4 @@
-import Cart from "../src/Cart";
-
-export default class Coupon {
+export default class CouponPercentage {
     constructor(code, discountPercentage, createDate, applicationDate) {
         this.code = code;
         this.discountPercentage = discountPercentage;
@@ -20,12 +18,10 @@ export default class Coupon {
             this.createDate.setUTCDate(this.createDate.getUTCDate() + 15)
         );
     }
-    calculateDiscount() {
-        const cart = new Cart();
+
+    calculateDiscount(totalPrice) {
         const percentage = this.discountPercentage / 100;
         const multiplicatedDiscount = 1 - percentage;
-        const totalPrice = cart.getTotalPrice();
-        const finalPrice = multiplicatedDiscount * totalPrice;
-        return finalPrice;
+        return multiplicatedDiscount * totalPrice;
     }
 }

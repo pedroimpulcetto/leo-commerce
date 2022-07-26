@@ -1,15 +1,13 @@
-import Coupon from "../src/Coupon";
-import Product from "../src/Product";
-import Cart from "../src/Cart";
+import CouponPercentage from "../src/CouponPercentage";
 
 test("deve criar um cupom", () => {
-    const coupon = new Coupon();
+    const coupon = new CouponPercentage();
 
-    expect(coupon).toBeInstanceOf(Coupon);
+    expect(coupon).toBeInstanceOf(CouponPercentage);
 });
 
 test("deve criar um cupom que não esteja expirado", () => {
-    const coupon = new Coupon(
+    const coupon = new CouponPercentage(
         "PEDRO10",
         10,
         new Date("2022-07-09"),
@@ -20,7 +18,7 @@ test("deve criar um cupom que não esteja expirado", () => {
 });
 
 test("deve criar um cupom com data já expirada", () => {
-    const coupon = new Coupon(
+    const coupon = new CouponPercentage(
         "LEO20",
         20,
         new Date("2022-06-21"),
@@ -30,10 +28,34 @@ test("deve criar um cupom com data já expirada", () => {
     expect(valid).toBe(false);
 });
 
-test("deve criar um cupom com 20% de desconto na compra do segundo item e que o frete fique grátis", () => {
+test("deve retornar 0 ao calcular desconto de um produto sem valor", () => {
+    const coupon = new CouponPercentage(
+        "PEDRO20",
+        20,
+        new Date("2022-07-15"),
+        new Date("2022-07-18")
+    );
+    const multiplicatedDiscount = coupon.calculateDiscount(0);
+
+    expect(multiplicatedDiscount).toBe(0);
+});
+
+test("deve retornar o valor com o desconto do cupom", () => {
+    const coupon = new CouponPercentage(
+        "PEDRO20",
+        20,
+        new Date("2022-07-15"),
+        new Date("2022-07-18")
+    );
+    const multiplicatedDiscount = coupon.calculateDiscount(100);
+
+    expect(multiplicatedDiscount).toBe(80);
+});
+
+/* test("deve criar um cupom com 20% de desconto na compra do segundo item e que o frete fique grátis", () => {
     const cart = new Cart();
-    const coupon = new Coupon("2PARA20", 20, new Date(), new Date());
-    let product = new Product(
+    const coupon = new CouponPercentage("2PARA20", 20, new Date(), new Date());
+    const product = new Product(
         "Celular Xiaomi",
         "Smartphone Xiaomi Mi11",
         "2200",
@@ -41,7 +63,7 @@ test("deve criar um cupom com 20% de desconto na compra do segundo item e que o 
         "Celular e Telefonia"
     );
     cart.addProduct(product);
-    let product1 = new Product(
+    const product1 = new Product(
         "Celular Xiaomi",
         "Smartphone Xiaomi Mi11",
         "2200",
@@ -49,14 +71,7 @@ test("deve criar um cupom com 20% de desconto na compra do segundo item e que o 
         "Celular e Telefonia"
     );
     cart.addProduct(product1);
-    const freight = cart.freightCalculator();
-    const totalPrice = cart.getTotalPrice();
-    if (cart.quantityProducts = 2) {
-        coupon.calculateDiscount();
-        return finalPrice;
-    }
-    const finalPrice = coupon.calculateDiscount();
 
     expect(finalPrice).toBe(3520);
     expect(freight).toBe(0);
-});
+}); */

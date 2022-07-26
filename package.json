@@ -7,6 +7,7 @@
         "test": "test"
     },
     "scripts": {
+        "dev": "nodemon src/server.js",
         "test": "jest",
         "coverage": "jest --coverage",
         "lint": "eslint src",
@@ -30,6 +31,11 @@
         "eslint-plugin-prettier": "^4.2.1",
         "eslint-plugin-promise": "^6.0.0",
         "husky": "^8.0.0",
-        "jest": "^28.1.2"
+        "jest": "^28.1.2",
+        "nodemon": "^2.0.19"
+    },
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.18.1"
     }
 }
