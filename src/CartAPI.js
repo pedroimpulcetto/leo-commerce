@@ -1,7 +1,7 @@
 import Cart from "./Cart.js";
 import Product from "./Product.js";
 import { coupons } from "../coupons.js";
-//import CouponPercentage from "./CouponPercentage.js";
+import CouponPercentage from "./CouponPercentage.js";
 
 export default class CartAPI {
     constructor() {
@@ -30,10 +30,13 @@ export default class CartAPI {
     }
 
     getSummary(req, res) {
+        const coupon = this.cart.coupon?.summaryCoupon();
         const summary = {
             quantityProducts: this.cart.quantityProducts(),
             totalPrice: this.cart.getTotalPrice(),
             freight: this.cart.freightCalculator(),
+            finalPrice: this.cart.getFinalPrice(),
+            coupon: coupon,
         };
         return res.status(200).json(summary);
     }
@@ -45,11 +48,13 @@ export default class CartAPI {
         if (newCoupon.length === 0) {
             return res.status(404).json({ message: "Cupom não existente" });
         }
-        // const superCoupon = new CouponPercentage(
-        //     newCoupon[0].code,
-        //     newCoupon[0].discount_percentage,
-        //     new Date(newCoupon[0].create_date),
-        //     new Date(new Date().toISOString().slice(0, 10))
-        // );
+        const superCoupon = new CouponPercentage(
+            newCoupon[0].code,
+            newCoupon[0].discount_percentage,
+            new Date(newCoupon[0].create_date),
+            new Date(new Date().toISOString().slice(0, 10))
+        );
+        this.cart.addCoupon(superCoupon);
+        return res.status(200).json(superCoupon);
     }
 }

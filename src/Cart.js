@@ -24,6 +24,13 @@ export default class Cart {
         return totalPrice;
     }
 
+    getFinalPrice() {
+        const totalPrice = this.getTotalPrice();
+        const freight = this.freightCalculator();
+        const finalPrice = totalPrice + freight;
+        return finalPrice;
+    }
+
     freightCalculator() {
         const totalPrice = this.getTotalPrice();
         if (totalPrice === 0) return 0;

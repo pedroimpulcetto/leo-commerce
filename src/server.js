@@ -29,6 +29,10 @@ routes.post("/carts/coupons", (req, res) => {
     cartAPI.postCoupon(req, res);
 });
 
+routes.post("/carts/addcoupons", (req, res) => {
+    cartAPI.postAddCoupon(req, res);
+});
+
 app.use(cors());
 app.use(express.json());
 app.use(routes);

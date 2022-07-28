@@ -24,4 +24,9 @@ export default class CouponPercentage {
         const multiplicatedDiscount = 1 - percentage;
         return multiplicatedDiscount * totalPrice;
     }
+
+    summaryCoupon() {
+        const coupon = this.discountPercentage;
+        return coupon + "%";
+    }
 }
